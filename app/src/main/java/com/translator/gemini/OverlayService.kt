@@ -1,4 +1,5 @@
-import android.app.Notification
+package com.translator.gemini
+
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
@@ -9,7 +10,6 @@ import android.graphics.PixelFormat
 import android.os.Build
 import android.os.IBinder
 import android.view.Gravity
-import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import android.widget.Button
@@ -44,7 +44,7 @@ class OverlayService : Service() {
 
         val notification = NotificationCompat.Builder(this, channelId)
             .setContentTitle("Gemini Translator Active")
-            .setContentText("Tap overlay to translate")
+            .setContentText("Overlay service running")
             .setSmallIcon(android.R.drawable.ic_dialog_info)
             .setPriority(NotificationCompat.PRIORITY_LOW)
             .build()
@@ -64,10 +64,10 @@ class OverlayService : Service() {
         windowManager = getSystemService(WINDOW_SERVICE) as WindowManager
 
         val button = Button(this).apply {
-            text = "Translate"
+            text = "AI Translate"
             setBackgroundColor(0xFF6200EE.toInt())
             setTextColor(0xFFFFFFFF.toInt())
-            setPadding(20, 10, 20, 10)
+            setPadding(24, 12, 24, 12)
         }
 
         val layoutFlag = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -95,8 +95,9 @@ class OverlayService : Service() {
 
     override fun onDestroy() {
         super.onDestroy()
-        if (floatingView != null) {
+        if (floatingView != null && windowManager != null) {
             windowManager?.removeView(floatingView)
         }
     }
 }
+
